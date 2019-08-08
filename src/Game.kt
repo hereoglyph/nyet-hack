@@ -3,13 +3,45 @@ fun main(args: Array<String>) {
     var healthPoints = 89
     val isBlessed = true
     val isImmortal = false
-    val auraVisible = isBlessed && healthPoints > 50 || isImmortal
+    val race = "gnome"
 
-    val auraColor = if (auraVisible) "Aura is green" else "There is no aura"
+    val auraColor = auraColor(isBlessed, healthPoints, isImmortal)
+    val healthStatus = formatHealthStatus(healthPoints, isBlessed)
+    val faction = faction(race)
 
+    printPlayerStatus(auraColor, name, healthStatus, faction)
+}
+
+private fun printPlayerStatus(
+    auraColor: String,
+    name: String,
+    healthStatus: String,
+    faction: String
+) {
     println(auraColor)
+    println("$name $healthStatus")
+    println(faction)
+}
 
-    val healthStatus = when (healthPoints) {
+private fun faction(race: String): String {
+    val faction = when (race) {
+        "dwarf" -> "Keepers of the Mines"
+        "gnome" -> "Keepers of the Mines"
+        "orc" -> "Free People of the Rolling Hills"
+        "human" -> "Free People of the Rolling Hills"
+        else -> "none"
+    }
+    return faction
+}
+
+private fun auraColor(isBlessed: Boolean, healthPoints: Int, isImmortal: Boolean): String {
+
+    val auraVisible = isBlessed && healthPoints > 50 || isImmortal
+    return if (auraVisible) "Aura is green" else "There is no aura"
+}
+
+private fun formatHealthStatus(healthPoints: Int, isBlessed: Boolean): String {
+    return when (healthPoints) {
         100 -> "is in excellent condition!"
         in 90..99 -> "has a few scratches"
         in 75..99 -> if (isBlessed) {
@@ -20,17 +52,4 @@ fun main(args: Array<String>) {
         in 15..74 -> "looks pretty hurt"
         else -> "is in awful condition!"
     }
-
-    println("$name $healthStatus")
-
-    val race = "gnome"
-    val faction = when (race) {
-        "dwarf" -> "Keepers of the Mines"
-        "gnome" -> "Keepers of the Mines"
-        "orc" ->  "Free People of the Rolling Hills"
-        "human" -> "Free People of the Rolling Hills"
-        else -> "none"
-    }
-
-    println(faction)
 }
